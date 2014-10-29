@@ -7,9 +7,15 @@ ADD_LUA=
 ADD_MEMCACHED=
 ADD_UPSTREAM_HASH=
 ADD_SMALL_LIGHT=
+ADD_CACHE_PURGE=1
 
 yum -y install pcre-devel
 
+if [ $ADD_CACHE_PURGE ];then
+  wget http://labs.frickle.com/files/ngx_cache_purge-2.1.tar.gz
+  tar zxvf ngx_cache_purge-2.1.tar.gz
+  ADD_CACHE_PURGE='--add-module=../ngx_cache_purge-2.1'
+fi
 
 if [ $ADD_SSL ];then
   ADD_SSL='--with-http_ssl_module'
@@ -112,7 +118,7 @@ then
   ADD_UPSTREAM_HASH='--add-module=../nginx_upstream_hash-0.3.1'
 fi
 
-./configure --with-pcre --prefix=$PREFIX $ADD_IMAGE_FILTER $ADD_SMALL_LIGHT $ADD_SSL $ADD_GRIDFS $ADD_DEVEL_KIT $ADD_LUA $ADD_MEMCACHED $ADD_UPSTREAM_HASH --with-cc-opt=-Wno-error
+./configure --with-pcre --prefix=$PREFIX $ADD_CACHE_PURGE $ADD_IMAGE_FILTER $ADD_SMALL_LIGHT $ADD_SSL $ADD_GRIDFS $ADD_DEVEL_KIT $ADD_LUA $ADD_MEMCACHED $ADD_UPSTREAM_HASH --with-cc-opt=-Wno-error
 make && make install 
 
 cd ..
