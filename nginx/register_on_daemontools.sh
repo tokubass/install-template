@@ -4,8 +4,7 @@ svcdir=/service/.nginx
 mkdir -p "$svcdir"
 mkdir -p "$svcdir"/log/main
 
-cat <<EOF
-'EOF' >"$svcdir"/run
+cat <<'EOF' >"$svcdir"/run
 #!/bin/sh
 
 PATH=/usr/local/nginx/sbin:/usr/local/bin:/usr/bin:/bin
